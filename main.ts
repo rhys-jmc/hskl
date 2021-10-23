@@ -57,6 +57,30 @@ export function succ<N extends number>(number: N): Succ<N> {
   return (number + 1) as Succ<N>;
 }
 
+export function min<N extends number>(...numbers: NonEmptyList<N>): N {
+  return Math.min(...numbers) as N;
+}
+
+export function max<N extends number>(...numbers: NonEmptyList<N>): N {
+  return Math.max(...numbers) as N;
+}
+
+export function minimum<N extends number>(numbers: NonEmptyList<N>): N {
+  return min(...numbers);
+}
+
+export function maximuum<N extends number>(numbers: NonEmptyList<N>): N {
+  return max(...numbers);
+}
+
+export function sum<N extends number>(numbers: NonEmptyList<N>): number {
+  return numbers.reduce<number>((p: number, c: N): number => p + c, 0);
+}
+
+export function product<N extends number>(numbers: NonEmptyList<N>): number {
+  return numbers.reduce<number>((p: number, c: N): number => p * c, 1);
+}
+
 const numArr: readonly (number | string)[] = [1, 1.5, "2"];
 const constArr = [1, 1.5, "2"] as const;
 
@@ -91,3 +115,15 @@ const s = drop(2, numArr);
 const t = drop(2, constArr);
 
 const u = succ(3);
+
+const v = min(4, 7, 3);
+
+const w = max(4, 7, 3);
+
+const x = minimum([4, 7, 3]);
+
+const y = maximuum([4, 7, 3]);
+
+const z = sum([4, 7, 3]);
+
+const aa = product([4, 7, 3]);
