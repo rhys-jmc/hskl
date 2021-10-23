@@ -20,10 +20,10 @@ export function isEmpty(array: List): array is EmptyList {
   return length(array) === 0;
 }
 
-export function isNotEmpty<T>(array: NonEmptyList<T>): true;
 export function isNotEmpty(array: EmptyList): false;
-export function isNotEmpty<T>(array: readonly T[]): array is NonEmptyList<T>;
-export function isNotEmpty<T>(array: readonly T[]): array is NonEmptyList<T> {
+export function isNotEmpty(array: NonEmptyList): true;
+export function isNotEmpty<T>(array: List<T>): array is NonEmptyList<T>;
+export function isNotEmpty<T>(array: List<T>): array is NonEmptyList<T> {
   return !isEmpty(array);
 }
 
@@ -46,3 +46,6 @@ const d = length(constArr);
 
 const e = isEmpty(numArr);
 const f = isEmpty(constArr);
+
+const g = isNotEmpty(numArr);
+const h = isNotEmpty(constArr);
