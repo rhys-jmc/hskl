@@ -11,7 +11,7 @@ export type List<T = unknown> = readonly T[];
 
 export type EmptyList = readonly [];
 
-export type NonEmptyList<T = unknown, L extends List<T> = List<T>> = readonly [T, ...L];
+export type NonEmptyList<T = unknown, R extends List = List<T>> = readonly [T, ...R];
 
 export type Reverse<L extends List> = L extends NonEmptyList<infer T, infer R> ? Append<T, Reverse<R>> : L;
 

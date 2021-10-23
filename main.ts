@@ -49,3 +49,6 @@ const f = isEmpty(constArr);
 
 const g = isNotEmpty(numArr);
 const h = isNotEmpty(constArr);
+
+const i = reverse(numArr);
+const j = reverse(constArr);
