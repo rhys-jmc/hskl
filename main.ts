@@ -45,8 +45,8 @@ export function reverse<L extends List>(array: L): Reverse<L> {
   return [...array].reverse() as unknown as Reverse<L>;
 }
 
-export function take<E extends number, L extends List>(extract: E, array: L): Take<E, L> {
-  return array.slice(0, extract) as Take<E, L>;
+export function take<E extends number, L extends List>(extract: E, list: L): Take<E, L> {
+  return list.slice(0, extract) as Take<E, L>;
 }
 
 export function drop<N extends number, L extends List>(number: N, array: L): Drop<N, L> {
@@ -79,6 +79,10 @@ export function sum<N extends number>(numbers: NonEmptyList<N>): number {
 
 export function product<N extends number>(numbers: NonEmptyList<N>): number {
   return numbers.reduce<number>((p: number, c: N): number => p * c, 1);
+}
+
+export function elem<T, L extends List<T>>(thing: T, list: L): boolean {
+  return list.some((item): boolean => isEqual(item, thing));
 }
 
 const numArr: readonly (number | string)[] = [1, 1.5, "2"];
@@ -127,3 +131,65 @@ const y = maximuum([4, 7, 3]);
 const z = sum([4, 7, 3]);
 
 const aa = product([4, 7, 3]);
+
+const ab = elem({ b: 1, a: 2 }, [{ a: 2, b: 1 }]);
+
+// https://github.com/epoberezkin/fast-deep-equal/blob/a33d49ab5cc659e331ff445109f35dd323230d41/src/index.jst
+function isEqual(a: unknown, b: unknown) {
+  if (a === b) return true;
+
+  if (a && b && typeof a === "object" && typeof b === "object") {
+    if (Array.isArray(a) || Array.isArray(b)) {
+      if (!Array.isArray(a)) return false;
+      if (!Array.isArray(b)) return false;
+      if (a.length !== b.length) return false;
+
+      for (let i = a.length; i-- !== 0; ) if (!isEqual(a[i], b[i])) return false;
+
+      return true;
+    }
+
+    if (a instanceof RegExp || b instanceof RegExp) {
+      if (!(a instanceof RegExp)) return false;
+      if (!(b instanceof RegExp)) return false;
+
+      return a.source === b.source && a.flags === b.flags;
+    }
+
+    if (a.valueOf !== Object.prototype.valueOf || b.valueOf !== Object.prototype.valueOf) {
+      if (a.valueOf === Object.prototype.valueOf) return false;
+      if (b.valueOf === Object.prototype.valueOf) return false;
+
+      return a.valueOf() === b.valueOf();
+    }
+
+    if (a.toString !== Object.prototype.toString || b.toString !== Object.prototype.toString) {
+      if (a.toString === Object.prototype.toString) return false;
+      if (b.toString === Object.prototype.toString) return false;
+
+      return a.toString() === b.toString();
+    }
+
+    const keys = Object.keys(a);
+    const length = keys.length;
+
+    if (length !== Object.keys(b).length) return false;
+
+    for (let i = length; i-- !== 0; ) {
+      const key = keys[i];
+
+      if (key && !Object.prototype.hasOwnProperty.call(b, key)) return false;
+    }
+
+    for (let i = length; i-- !== 0; ) {
+      const key = keys[i];
+
+      if (key && !isEqual((a as Record<string, unknown>)[key], (b as Record<string, unknown>)[key])) return false;
+    }
+
+    return true;
+  }
+
+  // true if both NaN, false otherwise
+  return a !== a && b !== b;
+}
