@@ -1,10 +1,13 @@
 type Append<A, L extends List> = readonly [...L, A];
-type Prepend<P, L extends List> = readonly [P, ...L];
+
+// type Prepend<P, L extends List> = readonly [P, ...L];
 
 // type First<T, R extends List<T>> = readonly [T, ...R];
+
 // type Last<T, R extends List<T>> = readonly [...R, T];
 
-type Succ<L extends List> = L extends List<infer T> ? [...L, T] : never;
+// type Succ<L extends List> = L extends List<infer T> ? [...L, T] : never;
+
 type Pred<L extends List> = L extends readonly [...infer R, unknown] ? R : never;
 
 export type List<T = unknown> = readonly T[];
@@ -24,3 +27,5 @@ export type Tail<L extends List> = L extends readonly [unknown, ...infer R] ? R 
 export type Last<L extends List> = L[Pred<L>["length"]];
 
 export type Init<L extends List> = L extends readonly [...infer R, unknown] ? R : L;
+
+export type Drop<N extends number, L extends List> = L extends readonly [...Take<N, L>, ...infer R] ? R : L;

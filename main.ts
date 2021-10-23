@@ -1,7 +1,7 @@
 /**
  *
  */
-import { EmptyList, Head, Init, Last, List, NonEmptyList, Reverse, Tail, Take } from "./types";
+import { Drop, EmptyList, Head, Init, Last, List, NonEmptyList, Reverse, Tail, Take } from "./types";
 
 export function head<T, L extends List<T>>(array: L): Head<L> {
   const first = array[0];
@@ -49,6 +49,10 @@ export function take<E extends number, L extends List>(extract: E, array: L): Ta
   return array.slice(0, extract) as Take<E, L>;
 }
 
+export function drop<N extends number, L extends List>(number: N, array: L): Drop<N, L> {
+  return array.slice(number) as Drop<N, L>;
+}
+
 const numArr: readonly (number | string)[] = [1, 1.5, "2"];
 const constArr = [1, 1.5, "2"] as const;
 
@@ -78,3 +82,6 @@ const p = last(constArr);
 
 const q = init(numArr);
 const r = init(constArr);
+
+const s = drop(2, numArr);
+const t = drop(2, constArr);
