@@ -1,7 +1,7 @@
 /**
  *
  */
-import { EmptyList, Head, List, NonEmptyList, Reverse, Tail, Take } from "./types";
+import { EmptyList, Head, Init, Last, List, NonEmptyList, Reverse, Tail, Take } from "./types";
 
 export function head<T, L extends List<T>>(array: L): Head<L> {
   const first = array[0];
@@ -10,8 +10,17 @@ export function head<T, L extends List<T>>(array: L): Head<L> {
 }
 
 export function tail<T, L extends List<T>>(array: L): Tail<L> {
-  const tail = array.slice(1);
-  return tail as unknown as Tail<L>;
+  return array.slice(1) as Tail<L>;
+}
+
+export function last<T, L extends List<T>>(array: L): Last<L> {
+  const foot = array[array.length - 1];
+  if (!foot) throw new Error("empty list");
+  return foot;
+}
+
+export function init<T, L extends List<T>>(array: L): Init<L> {
+  return array.slice(0, -1) as Init<L>;
 }
 
 export function length<L extends List>(array: L): L["length"] {
@@ -63,3 +72,9 @@ const l = take(2, constArr);
 
 const m = tail(numArr);
 const n = tail(constArr);
+
+const o = last(numArr);
+const p = last(constArr);
+
+const q = init(numArr);
+const r = init(constArr);
