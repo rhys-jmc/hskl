@@ -18,3 +18,5 @@ export type Reverse<L extends List> = L extends NonEmptyList<infer T, infer R> ?
 export type Take<E extends number, L extends List> = E extends L["length"] ? L : Take<E, Pred<L>>;
 
 export type Head<L extends List> = L[0];
+
+export type Tail<L extends List> = Exclude<L[number], L[0]>;
