@@ -1,3 +1,4 @@
+export * from "./cycle";
 export * from "./drop";
 export * from "./elem";
 export * from "./init";
@@ -10,6 +11,7 @@ export * from "./maximum";
 export * from "./min";
 export * from "./minimum";
 export * from "./product";
+export * from "./repeat";
 export * from "./reverse";
 export * from "./succ";
 export * from "./sum";
