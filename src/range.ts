@@ -8,15 +8,11 @@ export function range<T>(min: number | string, max: number | string): List<numbe
     return generateRange(min, max);
   }
 
-  if (min.length !== 1 || max.length !== 1) throw new Error("min and max string must be single char");
+  if (![min, max].every(stringIsChar)) throw new Error("min and max string must be single char");
 
-  const minChar = min[0] as string;
-  const maxChar = max[0] as string;
-  const minCode = minChar.charCodeAt(0);
-  const maxCode = maxChar.charCodeAt(0);
-  const charCodes = generateRange(minCode, maxCode);
+  const chars = ([min, max] as const).map((c) => c.charCodeAt(0)) as [number, number];
 
-  return Array.from(charCodes, (code) => String.fromCharCode(code)).join("");
+  return Array.from(generateRange(...chars), (code) => String.fromCharCode(code)).join("");
 }
 
 const generateRange = (min: number, max: number) => {
@@ -24,3 +20,5 @@ const generateRange = (min: number, max: number) => {
   if (length < 0) throw new Error("max must be larger than min");
   return Array.from({ length }, (_, index) => min + index);
 };
+
+const stringIsChar = (text: string) => text.length === 1;
