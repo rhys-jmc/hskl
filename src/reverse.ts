@@ -1,4 +1,4 @@
-import { List, NonEmptyList, Take } from "./types";
+import { List, NonEmptyList } from "./types";
 
 export function reverse<T, L extends List<T>>(
   list: L
