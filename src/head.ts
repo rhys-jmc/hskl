@@ -1,9 +1,7 @@
-import { List } from "./types";
+import { List, NonEmptyList } from "./types";
 
-export function head<T, L extends List<T>>(array: L): Head<L> {
-  const first = array[0];
-  if (!first) throw new Error("empty list");
-  return first as Head<L>;
+export function head<T, L extends NonEmptyList<T>>(array: L): Head<L> {
+  return array[0];
 }
 
 type Head<L extends List> = L[0];
