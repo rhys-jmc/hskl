@@ -2,7 +2,7 @@ import { List } from "./types";
 
 export function range(min: string, max: string): string;
 export function range(min: number, max: number): List<number>;
-export function range<T>(min: number | string, max: number | string): List<number> | string {
+export function range(min: number | string, max: number | string): List<number> | string {
   if (typeof min === "number" || typeof max === "number") {
     if (typeof min !== "number" || typeof max !== "number") throw new Error("min and max must be same type");
     return generateRange(min, max);
